@@ -22,9 +22,12 @@ class ConfigServiceProviderTest extends TestCase
     {
         $container = new Container(['environment' => 'dev']);
 
+        $directory = sys_get_temp_dir().'/config-service-provider-'.uniqid();
+
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
             Call::create('getSettings')->with()->willReturn(['key' => 'value']),
+            Call::create('getRequiredDirectories')->with()->willReturn([$directory]),
         ]);
 
         /** @var ConfigFactoryInterface|MockObject $configMapping */
@@ -32,7 +35,11 @@ class ConfigServiceProviderTest extends TestCase
             Call::create('create')->with('/root', 'dev')->willReturn($config),
         ]);
 
+        self::assertDirectoryNotExists($directory);
+
         $serviceProvider = new ConfigServiceProvider($factory, '/root');
         $serviceProvider->register($container);
+
+        self::assertDirectoryExists($directory);
     }
 }

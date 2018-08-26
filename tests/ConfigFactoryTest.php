@@ -51,6 +51,14 @@ class ConfigFactoryTest extends TestCase
             {
                 return ['rootDir' => $this->rootDir];
             }
+
+            /**
+             * @return array
+             */
+            public function getRequiredDirectories(): array
+            {
+                return ['/path/to/create'];
+            }
         };
 
         $class = get_class($object);
@@ -70,5 +78,6 @@ class ConfigFactoryTest extends TestCase
         self::assertInstanceOf($class, $config);
 
         self::assertSame(['rootDir' => '/root'], $config->getSettings());
+        self::assertSame(['/path/to/create'], $config->getRequiredDirectories());
     }
 }

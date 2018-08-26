@@ -39,5 +39,11 @@ final class ConfigServiceProvider implements ServiceProviderInterface
         foreach ($config->getSettings() as $key => $value) {
             $container[$key] = $value;
         }
+
+        foreach ($config->getRequiredDirectories() as $requiredDirectory) {
+            if (!is_dir($requiredDirectory)) {
+                mkdir($requiredDirectory, 0777);
+            }
+        }
     }
 }
