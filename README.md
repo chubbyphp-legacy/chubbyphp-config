@@ -31,6 +31,53 @@ composer require chubbyphp/chubbyphp-config "~1.0"
 
 ## Usage
 
+### Config
+
+```php
+<?php
+
+namespace MyProject\Config;
+
+use Chubbyphp\Config\ConfigInterface;
+
+class DevConfig implements ConfigInterface
+{
+    /**
+     * @var string
+     */
+    private $rootDir;
+
+    /**
+     * @param string $rootDir
+     *
+     * @return self
+     */
+    public static function create(string $rootDir): ConfigInterface
+    {
+        $config = new self;
+        $config->rootDir = $rootDir;
+
+        return $config;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig(): array
+    {
+        return ['rootDir' => $this->rootDir];
+    }
+
+    /**
+     * @return array
+     */
+    public function getDirectories(): array
+    {
+        return [$this->rootDir . '/var/cache', $this->rootDir . '/var/logs'];
+    }
+}
+```
+
 ### Without container
 
 ```php
