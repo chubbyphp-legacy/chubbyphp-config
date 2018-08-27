@@ -18,6 +18,10 @@
         "pimple/pimple": "~3.0",
         "slim/slim": "~3.0"
     },
+    "suggest": {
+        "pimple/pimple": "Integration code to the Pimple dependency injection container",
+        "slim/slim": "Integration code with the Slim framework"
+    },
     "autoload": {
         "psr-4": { "Chubbyphp\\Config\\": "src/" }
     },
