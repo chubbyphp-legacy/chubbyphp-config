@@ -41,9 +41,11 @@ namespace MyProject;
 use Chubbyphp\Config\ConfigProvider;
 use Chubbyphp\Config\ConfigMapping;
 use MyProject\Config\DevConfig;
+use MyProject\Config\ProdConfig;
 
 $configProvider = new ConfigProvider(__DIR__, [
     new ConfigMapping('dev', DevConfig::class),
+    new ConfigMapping('prod', ProdConfig::class),
 ]);
 
 $config = $configProvider->get('dev');
@@ -60,10 +62,12 @@ use Chubbyphp\Config\ConfigProvider;
 use Chubbyphp\Config\ConfigMapping;
 use Chubbyphp\Config\Pimple\ConfigServiceProvider;
 use MyProject\Config\DevConfig;
+use MyProject\Config\ProdConfig;
 use Pimple\Container;
 
 $configProvider = new ConfigProvider(__DIR__, [
     new ConfigMapping('dev', DevConfig::class),
+    new ConfigMapping('prod', ProdConfig::class),
 ]);
 
 $container = new Container(['env' => 'dev']);
@@ -82,10 +86,12 @@ use Chubbyphp\Config\ConfigMapping;
 use Chubbyphp\Config\Pimple\ConfigServiceProvider;
 use Chubbyphp\Config\Slim\SlimSettingsServiceProvider;
 use MyProject\Config\DevConfig;
+use MyProject\Config\ProdConfig;
 use Pimple\Container;
 
 $configProvider = new ConfigProvider(__DIR__, [
     new ConfigMapping('dev', DevConfig::class),
+    new ConfigMapping('prod', ProdConfig::class),
 ]);
 
 $container = new Container(['env' => 'dev']);
