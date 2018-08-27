@@ -19,6 +19,7 @@ A simple config.
 ## Suggest
 
  * pimple/pimple: ~3.0
+ * slim/slim: ~3.0
 
 ## Installation
 
