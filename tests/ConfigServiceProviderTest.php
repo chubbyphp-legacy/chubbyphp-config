@@ -2,7 +2,7 @@
 
 namespace Chubbyphp\Tests\Config;
 
-use Chubbyphp\Config\ConfigFactoryInterface;
+use Chubbyphp\Config\ConfigProviderInterface;
 use Chubbyphp\Config\ConfigInterface;
 use Chubbyphp\Config\ConfigServiceProvider;
 use Chubbyphp\Mock\Call;
@@ -30,14 +30,14 @@ class ConfigServiceProviderTest extends TestCase
             Call::create('getRequiredDirectories')->with()->willReturn([$directory]),
         ]);
 
-        /** @var ConfigFactoryInterface|MockObject $configMapping */
-        $factory = $this->getMockByCalls(ConfigFactoryInterface::class, [
-            Call::create('create')->with('/root', 'dev')->willReturn($config),
+        /** @var ConfigProviderInterface|MockObject $configMapping */
+        $factory = $this->getMockByCalls(ConfigProviderInterface::class, [
+            Call::create('create')->with('dev')->willReturn($config),
         ]);
 
         self::assertDirectoryNotExists($directory);
 
-        $serviceProvider = new ConfigServiceProvider($factory, '/root');
+        $serviceProvider = new ConfigServiceProvider($factory);
         $serviceProvider->register($container);
 
         self::assertDirectoryExists($directory);

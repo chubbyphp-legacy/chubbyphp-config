@@ -3,7 +3,7 @@
 namespace Chubbyphp\Tests\Config;
 
 use Chubbyphp\Config\ConfigException;
-use Chubbyphp\Config\ConfigFactory;
+use Chubbyphp\Config\ConfigProvider;
 use Chubbyphp\Config\ConfigInterface;
 use Chubbyphp\Config\ConfigMappingInterface;
 use Chubbyphp\Mock\Call;
@@ -12,9 +12,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Chubbyphp\Config\ConfigFactory
+ * @covers \Chubbyphp\Config\ConfigProvider
  */
-class ConfigFactoryTest extends TestCase
+class ConfigProviderTest extends TestCase
 {
     use MockByCallsTrait;
 
@@ -23,9 +23,9 @@ class ConfigFactoryTest extends TestCase
         $this->expectException(ConfigException::class);
         $this->expectExceptionMessage('There is no config for environment "dev"');
 
-        $factory = new ConfigFactory([]);
+        $factory = new ConfigProvider('/root', []);
 
-        $config = $factory->create('/root', 'dev');
+        $config = $factory->create('dev');
     }
 
     public function testCreateByEnvironment()
@@ -69,11 +69,11 @@ class ConfigFactoryTest extends TestCase
             Call::create('getClass')->with()->willReturn($class),
         ]);
 
-        $factory = new ConfigFactory([
+        $factory = new ConfigProvider('/root', [
             $configMapping,
         ]);
 
-        $config = $factory->create('/root', 'dev');
+        $config = $factory->create('dev');
 
         self::assertInstanceOf($class, $config);
 

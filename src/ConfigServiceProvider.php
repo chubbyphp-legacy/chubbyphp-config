@@ -10,23 +10,16 @@ use Pimple\ServiceProviderInterface;
 final class ConfigServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @var ConfigFactoryInterface
+     * @var ConfigProviderInterface
      */
-    private $configFactory;
+    private $configProvider;
 
     /**
-     * @var string
+     * @param ConfigProviderInterface $configProvider
      */
-    private $rootDir;
-
-    /**
-     * @param ConfigFactoryInterface $configFactory
-     * @param string                 $rootDir
-     */
-    public function __construct(ConfigFactoryInterface $configFactory, string $rootDir)
+    public function __construct(ConfigProviderInterface $configProvider)
     {
-        $this->configFactory = $configFactory;
-        $this->rootDir = $rootDir;
+        $this->configProvider = $configProvider;
     }
 
     /**
@@ -34,7 +27,7 @@ final class ConfigServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $config = $this->configFactory->create($this->rootDir, $container['environment']);
+        $config = $this->configProvider->create($container['environment']);
 
         foreach ($config->getSettings() as $key => $value) {
             $container[$key] = $value;
