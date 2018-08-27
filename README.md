@@ -47,6 +47,10 @@ class DevConfig implements ConfigInterface
      */
     private $rootDir;
 
+    private function __construct()
+    {
+    }
+
     /**
      * @param string $rootDir
      *
