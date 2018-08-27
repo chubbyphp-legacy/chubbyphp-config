@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Config;
+namespace Chubbyphp\Config\Slim;
 
+use Chubbyphp\Config\ConfigException;
+use Chubbyphp\Config\ConfigProviderInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Slim\Interfaces\CollectionInterface;
 
-final class ConfigServiceProvider implements ServiceProviderInterface
+final class SlimSettingsServiceProvider implements ServiceProviderInterface
 {
     /**
      * @var ConfigProviderInterface
@@ -29,14 +32,14 @@ final class ConfigServiceProvider implements ServiceProviderInterface
     {
         $config = $this->configProvider->get($container['environment']);
 
-        foreach ($config->getConfig() as $key => $value) {
-            $container[$key] = $value;
+        if (!$config instanceof SlimSettingsInterface) {
+            throw ConfigException::createByMissingInterface(SlimSettingsInterface::class);
         }
 
-        foreach ($config->getDirectories() as $requiredDirectory) {
-            if (!is_dir($requiredDirectory)) {
-                mkdir($requiredDirectory, 0777);
-            }
-        }
+        $container->extend('settings', function (CollectionInterface $settings) use ($config) {
+            $settings->replace($config->getSlimSettings());
+
+            return $settings;
+        });
     }
 }

@@ -23,9 +23,9 @@ class ConfigProviderTest extends TestCase
         $this->expectException(ConfigException::class);
         $this->expectExceptionMessage('There is no config for environment "dev"');
 
-        $factory = new ConfigProvider('/root', []);
+        $provider = new ConfigProvider('/root', []);
 
-        $config = $factory->create('dev');
+        $config = $provider->get('dev');
     }
 
     public function testCreateByEnvironment()
@@ -47,7 +47,7 @@ class ConfigProviderTest extends TestCase
             /**
              * @return array
              */
-            public function getSettings(): array
+            public function getConfig(): array
             {
                 return ['rootDir' => $this->rootDir];
             }
@@ -55,7 +55,7 @@ class ConfigProviderTest extends TestCase
             /**
              * @return array
              */
-            public function getRequiredDirectories(): array
+            public function getDirectories(): array
             {
                 return ['/path/to/create'];
             }
@@ -69,15 +69,15 @@ class ConfigProviderTest extends TestCase
             Call::create('getClass')->with()->willReturn($class),
         ]);
 
-        $factory = new ConfigProvider('/root', [
+        $provider = new ConfigProvider('/root', [
             $configMapping,
         ]);
 
-        $config = $factory->create('dev');
+        $config = $provider->get('dev');
 
         self::assertInstanceOf($class, $config);
 
-        self::assertSame(['rootDir' => '/root'], $config->getSettings());
-        self::assertSame(['/path/to/create'], $config->getRequiredDirectories());
+        self::assertSame(['rootDir' => '/root'], $config->getConfig());
+        self::assertSame(['/path/to/create'], $config->getDirectories());
     }
 }

@@ -9,10 +9,10 @@ interface ConfigInterface
     /**
      * @return array
      */
-    public function getSettings(): array;
+    public function getConfig(): array;
 
     /**
      * @return array
      */
-    public function getRequiredDirectories(): array;
+    public function getDirectories(): array;
 }

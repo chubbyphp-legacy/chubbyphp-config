@@ -48,7 +48,7 @@ final class ConfigProvider implements ConfigProviderInterface
      *
      * @throws ConfigException
      */
-    public function create(string $environment): ConfigInterface
+    public function get(string $environment): ConfigInterface
     {
         if (!isset($this->configMappings[$environment])) {
             throw ConfigException::createByEnvironment($environment);

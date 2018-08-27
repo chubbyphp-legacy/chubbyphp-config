@@ -16,4 +16,11 @@ class ConfigExceptionTest extends TestCase
 
         self::assertSame('There is no config for environment "dev"', $exception->getMessage());
     }
+
+    public function testCreateByMissingInterface()
+    {
+        $exception = ConfigException::createByMissingInterface(\DateTimeInterface::class);
+
+        self::assertSame('Missing interface "DateTimeInterface"', $exception->getMessage());
+    }
 }

@@ -11,5 +11,5 @@ interface ConfigProviderInterface
      *
      * @return ConfigInterface
      */
-    public function create(string $environment): ConfigInterface;
+    public function get(string $environment): ConfigInterface;
 }

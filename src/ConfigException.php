@@ -15,4 +15,14 @@ final class ConfigException extends \InvalidArgumentException
     {
         return new self(sprintf('There is no config for environment "%s"', $environment));
     }
+
+    /**
+     * @param string $interface
+     *
+     * @return self
+     */
+    public static function createByMissingInterface(string $interface): self
+    {
+        return new self(sprintf('Missing interface "%s"', $interface));
+    }
 }

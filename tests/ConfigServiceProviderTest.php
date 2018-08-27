@@ -26,18 +26,18 @@ class ConfigServiceProviderTest extends TestCase
 
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
-            Call::create('getSettings')->with()->willReturn(['key' => 'value']),
-            Call::create('getRequiredDirectories')->with()->willReturn([$directory]),
+            Call::create('getConfig')->with()->willReturn(['key' => 'value']),
+            Call::create('getDirectories')->with()->willReturn([$directory]),
         ]);
 
-        /** @var ConfigProviderInterface|MockObject $configMapping */
-        $factory = $this->getMockByCalls(ConfigProviderInterface::class, [
-            Call::create('create')->with('dev')->willReturn($config),
+        /** @var ConfigProviderInterface|MockObject $provider */
+        $provider = $this->getMockByCalls(ConfigProviderInterface::class, [
+            Call::create('get')->with('dev')->willReturn($config),
         ]);
 
         self::assertDirectoryNotExists($directory);
 
-        $serviceProvider = new ConfigServiceProvider($factory);
+        $serviceProvider = new ConfigServiceProvider($provider);
         $serviceProvider->register($container);
 
         self::assertDirectoryExists($directory);
