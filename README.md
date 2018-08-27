@@ -67,9 +67,7 @@ $configProvider = new ConfigProvider(__DIR__, [
 ]);
 
 $container = new Container(['env' => 'dev']);
-
-$configServiceProvider = new ConfigServiceProvider($configProvider);
-$configServiceProvider->register($container);
+$container->register(new ConfigServiceProvider($configProvider));
 ```
 
 ### With Slim
@@ -91,12 +89,8 @@ $configProvider = new ConfigProvider(__DIR__, [
 ]);
 
 $container = new Container(['env' => 'dev']);
-
-$configServiceProvider = new ConfigServiceProvider($configProvider);
-$configServiceProvider->register($container);
-
-$slimSettingsProvider = new SlimSettingsServiceProvider($configProvider);
-$slimSettingsProvider->register($container);
+$container->register(new ConfigServiceProvider($configProvider));
+$container->register(new SlimSettingsServiceProvider($configProvider));
 ```
 
 ## Copyright
