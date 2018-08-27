@@ -3,9 +3,9 @@
 namespace Chubbyphp\Tests\Config;
 
 use Chubbyphp\Config\ConfigException;
-use Chubbyphp\Config\ConfigProvider;
 use Chubbyphp\Config\ConfigInterface;
 use Chubbyphp\Config\ConfigMappingInterface;
+use Chubbyphp\Config\ConfigProvider;
 use Chubbyphp\Mock\Call;
 use Chubbyphp\Mock\MockByCallsTrait;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -39,9 +39,12 @@ class ConfigProviderTest extends TestCase
             /**
              * @param string $rootDir
              */
-            public function __construct(string $rootDir = null)
+            public static function create(string $rootDir): ConfigInterface
             {
-                $this->rootDir = $rootDir;
+                $config = new self();
+                $config->rootDir = $rootDir;
+
+                return $config;
             }
 
             /**

@@ -19,8 +19,8 @@ class ConfigExceptionTest extends TestCase
 
     public function testCreateByMissingInterface()
     {
-        $exception = ConfigException::createByMissingInterface(\DateTimeInterface::class);
+        $exception = ConfigException::createByMissingInterface(\stdClass::class, \DateTimeInterface::class);
 
-        self::assertSame('Missing interface "DateTimeInterface"', $exception->getMessage());
+        self::assertSame('Class "stdClass" does not implement interface "DateTimeInterface"', $exception->getMessage());
     }
 }

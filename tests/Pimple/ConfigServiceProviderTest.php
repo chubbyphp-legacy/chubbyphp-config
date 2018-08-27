@@ -37,8 +37,7 @@ class ConfigServiceProviderTest extends TestCase
 
         self::assertDirectoryNotExists($directory);
 
-        $serviceProvider = new ConfigServiceProvider($provider);
-        $serviceProvider->register($container);
+        $container->register(new ConfigServiceProvider($provider));
 
         self::assertDirectoryExists($directory);
     }

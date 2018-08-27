@@ -33,7 +33,7 @@ final class SlimSettingsServiceProvider implements ServiceProviderInterface
         $config = $this->configProvider->get($container['env']);
 
         if (!$config instanceof SlimSettingsInterface) {
-            throw ConfigException::createByMissingInterface(SlimSettingsInterface::class);
+            throw ConfigException::createByMissingInterface(get_class($config), SlimSettingsInterface::class);
         }
 
         $container->extend('settings', function (CollectionInterface $settings) use ($config) {

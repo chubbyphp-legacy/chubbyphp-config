@@ -23,8 +23,16 @@ class SlimSettingsServiceProviderTest extends TestCase
 
     public function testRegisterWithConfigInterface()
     {
+        /** @var ConfigInterface|MockObject $config */
+        $config = $this->getMockByCalls(ConfigInterface::class);
+
         $this->expectException(ConfigException::class);
-        $this->expectExceptionMessage('Missing interface "Chubbyphp\Config\Slim\SlimSettingsInterface"');
+        $this->expectExceptionMessage(
+            sprintf(
+                'Class "%s" does not implement interface "Chubbyphp\Config\Slim\SlimSettingsInterface"',
+                get_class($config)
+            )
+        );
 
         $container = new Container([
             'env' => 'dev',
@@ -32,9 +40,6 @@ class SlimSettingsServiceProviderTest extends TestCase
                 return new Collection(['displayErrorDetails' => false]);
             },
         ]);
-
-        /** @var ConfigInterface|MockObject $config */
-        $config = $this->getMockByCalls(ConfigInterface::class);
 
         /** @var ConfigProviderInterface|MockObject $provider */
         $provider = $this->getMockByCalls(ConfigProviderInterface::class, [
@@ -64,8 +69,7 @@ class SlimSettingsServiceProviderTest extends TestCase
             Call::create('get')->with('dev')->willReturn($config),
         ]);
 
-        $serviceProvider = new SlimSettingsServiceProvider($provider);
-        $serviceProvider->register($container);
+        $container->register(new SlimSettingsServiceProvider($provider));
 
         self::assertSame(['displayErrorDetails' => true], $container['settings']->all());
     }

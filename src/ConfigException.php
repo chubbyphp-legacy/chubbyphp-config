@@ -17,12 +17,13 @@ final class ConfigException extends \InvalidArgumentException
     }
 
     /**
+     * @param string $class
      * @param string $interface
      *
      * @return self
      */
-    public static function createByMissingInterface(string $interface): self
+    public static function createByMissingInterface(string $class, string $interface): self
     {
-        return new self(sprintf('Missing interface "%s"', $interface));
+        return new self(sprintf('Class "%s" does not implement interface "%s"', $class, $interface));
     }
 }

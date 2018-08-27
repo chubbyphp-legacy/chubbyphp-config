@@ -22,6 +22,10 @@ final class ConfigMapping implements ConfigMappingInterface
      */
     public function __construct(string $environment, string $class)
     {
+        if (!in_array(ConfigInterface::class, class_implements($class), true)) {
+            throw ConfigException::createByMissingInterface($class, ConfigInterface::class);
+        }
+
         $this->environment = $environment;
         $this->class = $class;
     }

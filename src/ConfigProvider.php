@@ -57,7 +57,7 @@ final class ConfigProvider implements ConfigProviderInterface
         if (!isset($this->configs[$environment])) {
             $class = $this->configMappings[$environment];
 
-            $this->configs[$environment] = new $class($this->rootDir);
+            $this->configs[$environment] = $class::create($this->rootDir);
         }
 
         return $this->configs[$environment];
