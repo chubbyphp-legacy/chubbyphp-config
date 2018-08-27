@@ -30,6 +30,74 @@ composer require chubbyphp/chubbyphp-config "~1.0"
 
 ## Usage
 
+### Without container
+
+```php
+<?php
+
+namespace MyProject;
+
+use Chubbyphp\Config\ConfigProvider;
+use Chubbyphp\Config\ConfigMapping;
+use MyProject\Config\DevConfig;
+
+$configProvider = new ConfigProvider(__DIR__, [
+    new ConfigMapping('dev', DevConfig::class),
+]);
+
+$config = $configProvider->get('dev');
+```
+
+### With Pimple
+
+```php
+<?php
+
+namespace MyProject;
+
+use Chubbyphp\Config\ConfigProvider;
+use Chubbyphp\Config\ConfigMapping;
+use Chubbyphp\Config\Pimple\ConfigServiceProvider;
+use MyProject\Config\DevConfig;
+use Pimple\Container;
+
+$configProvider = new ConfigProvider(__DIR__, [
+    new ConfigMapping('dev', DevConfig::class),
+]);
+
+$container = new Container(['env' => 'dev']);
+
+$configServiceProvider = new ConfigServiceProvider($configProvider);
+$configServiceProvider->register($container);
+```
+
+### With Slim
+
+```php
+<?php
+
+namespace MyProject;
+
+use Chubbyphp\Config\ConfigProvider;
+use Chubbyphp\Config\ConfigMapping;
+use Chubbyphp\Config\Pimple\ConfigServiceProvider;
+use Chubbyphp\Config\Slim\SlimSettingsServiceProvider;
+use MyProject\Config\DevConfig;
+use Pimple\Container;
+
+$configProvider = new ConfigProvider(__DIR__, [
+    new ConfigMapping('dev', DevConfig::class),
+]);
+
+$container = new Container(['env' => 'dev']);
+
+$configServiceProvider = new ConfigServiceProvider($configProvider);
+$configServiceProvider->register($container);
+
+$slimSettingsProvider = new SlimSettingsServiceProvider($configProvider);
+$slimSettingsProvider->register($container);
+```
+
 ## Copyright
 
 Dominik Zogg 2018

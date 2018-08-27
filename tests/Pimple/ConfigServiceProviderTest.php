@@ -1,10 +1,10 @@
 <?php
 
-namespace Chubbyphp\Tests\Config;
+namespace Chubbyphp\Tests\Config\Pimple;
 
-use Chubbyphp\Config\ConfigProviderInterface;
 use Chubbyphp\Config\ConfigInterface;
-use Chubbyphp\Config\ConfigServiceProvider;
+use Chubbyphp\Config\ConfigProviderInterface;
+use Chubbyphp\Config\Pimple\ConfigServiceProvider;
 use Chubbyphp\Mock\Call;
 use Chubbyphp\Mock\MockByCallsTrait;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Pimple\Container;
 
 /**
- * @covers \Chubbyphp\Config\ConfigServiceProvider
+ * @covers \Chubbyphp\Config\Pimple\ConfigServiceProvider
  */
 class ConfigServiceProviderTest extends TestCase
 {
@@ -20,7 +20,7 @@ class ConfigServiceProviderTest extends TestCase
 
     public function testRegister()
     {
-        $container = new Container(['environment' => 'dev']);
+        $container = new Container(['env' => 'dev']);
 
         $directory = sys_get_temp_dir().'/config-service-provider-'.uniqid();
 

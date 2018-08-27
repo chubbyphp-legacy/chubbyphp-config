@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Config;
+namespace Chubbyphp\Config\Pimple;
 
+use Chubbyphp\Config\ConfigProviderInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -27,7 +28,7 @@ final class ConfigServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $config = $this->configProvider->get($container['environment']);
+        $config = $this->configProvider->get($container['env']);
 
         foreach ($config->getConfig() as $key => $value) {
             $container[$key] = $value;

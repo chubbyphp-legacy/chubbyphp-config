@@ -27,7 +27,7 @@ class SlimSettingsServiceProviderTest extends TestCase
         $this->expectExceptionMessage('Missing interface "Chubbyphp\Config\Slim\SlimSettingsInterface"');
 
         $container = new Container([
-            'environment' => 'dev',
+            'env' => 'dev',
             'settings' => function () {
                 return new Collection(['displayErrorDetails' => false]);
             },
@@ -48,7 +48,7 @@ class SlimSettingsServiceProviderTest extends TestCase
     public function testRegisterWithSlimSettingsInterface()
     {
         $container = new Container([
-            'environment' => 'dev',
+            'env' => 'dev',
             'settings' => function () {
                 return new Collection(['displayErrorDetails' => false]);
             },
