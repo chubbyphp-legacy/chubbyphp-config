@@ -100,6 +100,12 @@ $configProvider = new ConfigProvider(__DIR__, [
 ]);
 
 $config = $configProvider->get('dev');
+
+foreach ($config->getDirectories() as $directory) {
+    if (!is_dir($directory)) {
+        mkdir($directory, 0777, true);
+    }
+}
 ```
 
 ### With Pimple

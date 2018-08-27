@@ -36,7 +36,7 @@ final class ConfigServiceProvider implements ServiceProviderInterface
 
         foreach ($config->getDirectories() as $requiredDirectory) {
             if (!is_dir($requiredDirectory)) {
-                mkdir($requiredDirectory, 0777);
+                mkdir($requiredDirectory, 0777, true);
             }
         }
     }
