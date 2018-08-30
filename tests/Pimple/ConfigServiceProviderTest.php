@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chubbyphp\Tests\Config\Pimple;
 
 use Chubbyphp\Config\ConfigInterface;
