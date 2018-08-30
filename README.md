@@ -20,16 +20,42 @@ A simple config.
 
  * pimple/pimple: ~3.0
  * slim/slim: ~3.0
+ * symfony/console: ~2.8|~3.0|~4.0
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-config][1].
 
-```sh
+```bash
 composer require chubbyphp/chubbyphp-config "~1.0"
 ```
 
 ## Usage
+
+### Command
+
+```php
+<?php
+
+use Chubbyphp\Config\Command\CleanDirectoriesCommand;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+$input = new ArgvInput();
+
+$console = new Application();
+$console->add(
+    new CleanDirectoriesCommand([
+        'cache' => __DIR__ . '/var/cache',
+        'log' => __DIR__ . '/var/log'
+    ])
+);
+$console->run($input);
+```
+
+```bash
+/path/to/console config:clean-directories cache log
+```
 
 ### Config
 
@@ -77,7 +103,10 @@ class DevConfig implements ConfigInterface
      */
     public function getDirectories(): array
     {
-        return [$this->rootDir . '/var/cache', $this->rootDir . '/var/logs'];
+        return [
+            $this->rootDir . '/var/cache',
+            $this->rootDir . '/var/logs'
+        ];
     }
 }
 ```
