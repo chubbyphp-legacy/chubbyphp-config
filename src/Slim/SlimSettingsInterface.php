@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Config\Slim;
 
-interface SlimSettingsInterface
+use Chubbyphp\Config\ConfigInterface;
+
+interface SlimSettingsInterface extends ConfigInterface
 {
     /**
      * @return array
