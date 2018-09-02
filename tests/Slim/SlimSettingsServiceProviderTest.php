@@ -62,7 +62,7 @@ class SlimSettingsServiceProviderTest extends TestCase
         ]);
 
         /** @var SlimSettingsInterface|MockObject $config */
-        $config = $this->getMockByCalls(SlimSettingsInterface::class, [
+        $config = $this->getMockByCalls([ConfigInterface::class, SlimSettingsInterface::class], [
             Call::create('getSlimSettings')->with()->willReturn(['displayErrorDetails' => true]),
         ]);
 

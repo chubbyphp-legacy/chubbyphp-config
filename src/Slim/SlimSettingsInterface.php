@@ -6,7 +6,7 @@ namespace Chubbyphp\Config\Slim;
 
 use Chubbyphp\Config\ConfigInterface;
 
-interface SlimSettingsInterface extends ConfigInterface
+interface SlimSettingsInterface
 {
     /**
      * @return array
