@@ -12,7 +12,7 @@ final class ConfigProvider implements ConfigProviderInterface
     private $rootDir;
 
     /**
-     * @var ConfigMappingInterface[]
+     * @var string[]
      */
     private $configMappings = [];
 
