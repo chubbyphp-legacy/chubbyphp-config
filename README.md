@@ -27,7 +27,7 @@ A simple config.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-config][1].
 
 ```bash
-composer require chubbyphp/chubbyphp-config "~1.0"
+composer require chubbyphp/chubbyphp-config "~1.1"
 ```
 
 ## Usage
