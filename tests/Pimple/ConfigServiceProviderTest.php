@@ -134,7 +134,34 @@ class ConfigServiceProviderTest extends TestCase
         self::assertDirectoryExists($directory);
     }
 
-    public function testRegisterWithExistingStringCovertToArray()
+    public function testRegisterWithExistingStringConvertToInt()
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Type conversion from "string" to "integer" at path "key"');
+
+        $container = new Container([
+            'env' => 'dev',
+            'key' => 'value',
+        ]);
+
+        $directory = sys_get_temp_dir().'/config-service-provider-'.uniqid();
+
+        /** @var ConfigInterface|MockObject $config */
+        $config = $this->getMockByCalls(ConfigInterface::class, [
+            Call::create('getConfig')->with()->willReturn(['key' => 1]),
+        ]);
+
+        /** @var ConfigProviderInterface|MockObject $provider */
+        $provider = $this->getMockByCalls(ConfigProviderInterface::class, [
+            Call::create('get')->with('dev')->willReturn($config),
+        ]);
+
+        self::assertDirectoryNotExists($directory);
+
+        $container->register(new ConfigServiceProvider($provider));
+    }
+
+    public function testRegisterWithExistingStringConvertToArray()
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Type conversion from "string" to "array" at path "key.key1.key12"');
