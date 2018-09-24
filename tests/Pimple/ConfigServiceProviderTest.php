@@ -79,8 +79,15 @@ class ConfigServiceProviderTest extends TestCase
         $container = new Container([
             'env' => 'dev',
             'key' => [
-                'key1' => 'value1',
+                'key1' => [
+                    'key11' => 'value11',
+                    'key12' => 'value12',
+                ],
                 'key2' => 'value2',
+                'key3' => [
+                    0 => 'value31',
+                    2 => 'value32',
+                ],
             ],
         ]);
 
@@ -88,7 +95,16 @@ class ConfigServiceProviderTest extends TestCase
 
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
-            Call::create('getConfig')->with()->willReturn(['key' => ['key2' => 'value22', 'key3' => 'value3']]),
+            Call::create('getConfig')->with()->willReturn([
+                'key' => [
+                    'key1' => [
+                        'key12' => 'value112',
+                    ],
+                    'key3' => [
+                        'value33',
+                    ],
+                ],
+            ]),
             Call::create('getDirectories')->with()->willReturn([$directory]),
         ]);
 
@@ -102,7 +118,18 @@ class ConfigServiceProviderTest extends TestCase
         $container->register(new ConfigServiceProvider($provider));
 
         self::assertArrayHasKey('key', $container);
-        self::assertSame(['key1' => 'value1', 'key2' => 'value22', 'key3' => 'value3'], $container['key']);
+        self::assertSame([
+            'key1' => [
+                'key11' => 'value11',
+                'key12' => 'value112',
+            ],
+            'key2' => 'value2',
+            'key3' => [
+                0 => 'value31',
+                2 => 'value32',
+                3 => 'value33',
+            ],
+        ], $container['key']);
 
         self::assertDirectoryExists($directory);
     }
@@ -110,18 +137,37 @@ class ConfigServiceProviderTest extends TestCase
     public function testRegisterWithExistingStringCovertToArray()
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Key "key" already exist with type "string", new type "array"');
+        $this->expectExceptionMessage('Type conversion from "string" to "array" at path "key.key1.key12"');
 
         $container = new Container([
             'env' => 'dev',
-            'key' => 'value',
+            'key' => [
+                'key1' => [
+                    'key11' => 'value11',
+                    'key12' => 'value12',
+                ],
+                'key2' => 'value2',
+                'key3' => [
+                    0 => 'value31',
+                    2 => 'value32',
+                ],
+            ],
         ]);
 
         $directory = sys_get_temp_dir().'/config-service-provider-'.uniqid();
 
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
-            Call::create('getConfig')->with()->willReturn(['key' => ['key1' => 'value1']]),
+            Call::create('getConfig')->with()->willReturn([
+                'key' => [
+                    'key1' => [
+                        'key12' => ['value112'],
+                    ],
+                    'key3' => [
+                        'value33',
+                    ],
+                ],
+            ]),
         ]);
 
         /** @var ConfigProviderInterface|MockObject $provider */

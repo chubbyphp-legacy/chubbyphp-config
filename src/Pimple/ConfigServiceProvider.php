@@ -32,7 +32,7 @@ final class ConfigServiceProvider implements ServiceProviderInterface
 
         foreach ($config->getConfig() as $key => $value) {
             if (isset($container[$key])) {
-                $container[$key] = $this->replace($key, $container[$key], $value);
+                $container[$key] = $this->mergeRecursive($container[$key], $value, $key);
             } else {
                 $container[$key] = $value;
             }
@@ -46,30 +46,43 @@ final class ConfigServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @param string                 $key
-     * @param array|string|int|float $existingValue
-     * @param array|string|int|float $value
+     * @param array|string|float|int|bool $existingValue
+     * @param array|string|float|int|bool $newValue
+     * @param string                      $path
+     *
+     * @return array|string|float|int|bool
      */
-    private function replace(string $key, $existingValue, $value)
+    private function mergeRecursive($existingValue, $newValue, string $path)
     {
-        $existingValueType = gettype($existingValue);
-        $valueType = gettype($value);
+        $existingType = gettype($existingValue);
+        $newType = gettype($newValue);
 
-        if ($existingValueType !== $valueType) {
+        if ($existingType !== $newType) {
             throw new \LogicException(
-                sprintf(
-                    'Key "%s" already exist with type "%s", new type "%s"',
-                    $key,
-                    $existingValueType,
-                    $valueType
-                )
+                sprintf('Type conversion from "%s" to "%s" at path "%s"', $existingType, $newType, $path)
             );
         }
 
-        if ('array' === $valueType) {
-            return array_replace_recursive($existingValue, $value);
+        if ('array' !== $newType) {
+            return $newValue;
         }
 
-        return $value;
+        foreach ($newValue as $key => $newSubValue) {
+            if (!is_string($key)) {
+                $existingValue[] = $newSubValue;
+
+                continue;
+            }
+
+            if (isset($existingValue[$key])) {
+                $subPath = $path.'.'.$key;
+
+                $existingValue[$key] = $this->mergeRecursive($existingValue[$key], $newSubValue, $subPath);
+            } else {
+                $existingValue[$key] = $newSubValue;
+            }
+        }
+
+        return $existingValue;
     }
 }
