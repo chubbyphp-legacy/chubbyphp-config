@@ -34,30 +34,36 @@ composer require chubbyphp/chubbyphp-config "~1.1"
 
 ### Command
 
+ * [CleanDirectoriesCommand][2]
+
+### Slim
+
+#### Bootstrap
+
 ```php
 <?php
 
-use Chubbyphp\Config\Command\CleanDirectoriesCommand;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
+namespace MyProject;
 
-$input = new ArgvInput();
+use Chubbyphp\Config\ConfigProvider;
+use Chubbyphp\Config\ConfigMapping;
+use Chubbyphp\Config\Pimple\ConfigServiceProvider;
+use Chubbyphp\Config\Slim\SlimSettingsServiceProvider;
+use MyProject\Config\DevConfig;
+use MyProject\Config\ProdConfig;
+use Pimple\Container;
 
-$console = new Application();
-$console->add(
-    new CleanDirectoriesCommand([
-        'cache' => __DIR__ . '/var/cache',
-        'log' => __DIR__ . '/var/log'
-    ])
-);
-$console->run($input);
+$configProvider = new ConfigProvider(__DIR__, [
+    new ConfigMapping('dev', DevConfig::class),
+    new ConfigMapping('prod', ProdConfig::class),
+]);
+
+$container = new Container(['env' => 'dev']);
+$container->register(new ConfigServiceProvider($configProvider));
+$container->register(new SlimSettingsServiceProvider($configProvider));
 ```
 
-```bash
-/path/to/console config:clean-directories cache log
-```
-
-### Config
+#### Config
 
 ```php
 <?php
@@ -65,8 +71,9 @@ $console->run($input);
 namespace MyProject\Config;
 
 use Chubbyphp\Config\ConfigInterface;
+use Chubbyphp\Config\Slim\SlimSettingsInterface;
 
-class DevConfig implements ConfigInterface
+class DevConfig implements ConfigInterface, SlimSettingsInterface
 {
     /**
      * @var string
@@ -95,7 +102,10 @@ class DevConfig implements ConfigInterface
      */
     public function getConfig(): array
     {
-        return ['rootDir' => $this->rootDir];
+        return [
+            'env' => 'dev',
+            'rootDir' => $this->rootDir
+        ];
     }
 
     /**
@@ -104,85 +114,21 @@ class DevConfig implements ConfigInterface
     public function getDirectories(): array
     {
         return [
-            $this->rootDir . '/var/cache',
-            $this->rootDir . '/var/logs'
+            'cache' => $this->rootDir . '/var/cache/dev',
+            'logs' => $this->rootDir . '/var/logs/dev',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getSlimSettings(): array
+    {
+        return [
+            'displayErrorDetails' => false,
         ];
     }
 }
-```
-
-### Without container
-
-```php
-<?php
-
-namespace MyProject;
-
-use Chubbyphp\Config\ConfigProvider;
-use Chubbyphp\Config\ConfigMapping;
-use MyProject\Config\DevConfig;
-use MyProject\Config\ProdConfig;
-
-$configProvider = new ConfigProvider(__DIR__, [
-    new ConfigMapping('dev', DevConfig::class),
-    new ConfigMapping('prod', ProdConfig::class),
-]);
-
-$config = $configProvider->get('dev');
-
-foreach ($config->getDirectories() as $directory) {
-    if (!is_dir($directory)) {
-        mkdir($directory, 0777, true);
-    }
-}
-```
-
-### With Pimple
-
-```php
-<?php
-
-namespace MyProject;
-
-use Chubbyphp\Config\ConfigProvider;
-use Chubbyphp\Config\ConfigMapping;
-use Chubbyphp\Config\Pimple\ConfigServiceProvider;
-use MyProject\Config\DevConfig;
-use MyProject\Config\ProdConfig;
-use Pimple\Container;
-
-$configProvider = new ConfigProvider(__DIR__, [
-    new ConfigMapping('dev', DevConfig::class),
-    new ConfigMapping('prod', ProdConfig::class),
-]);
-
-$container = new Container(['env' => 'dev']);
-$container->register(new ConfigServiceProvider($configProvider));
-```
-
-### With Slim
-
-```php
-<?php
-
-namespace MyProject;
-
-use Chubbyphp\Config\ConfigProvider;
-use Chubbyphp\Config\ConfigMapping;
-use Chubbyphp\Config\Pimple\ConfigServiceProvider;
-use Chubbyphp\Config\Slim\SlimSettingsServiceProvider;
-use MyProject\Config\DevConfig;
-use MyProject\Config\ProdConfig;
-use Pimple\Container;
-
-$configProvider = new ConfigProvider(__DIR__, [
-    new ConfigMapping('dev', DevConfig::class),
-    new ConfigMapping('prod', ProdConfig::class),
-]);
-
-$container = new Container(['env' => 'dev']);
-$container->register(new ConfigServiceProvider($configProvider));
-$container->register(new SlimSettingsServiceProvider($configProvider));
 ```
 
 ## Copyright
@@ -190,3 +136,4 @@ $container->register(new SlimSettingsServiceProvider($configProvider));
 Dominik Zogg 2018
 
 [1]: https://packagist.org/packages/chubbyphp/chubbyphp-config
+[2]: doc/Command/CleanDirectoriesCommand.md
