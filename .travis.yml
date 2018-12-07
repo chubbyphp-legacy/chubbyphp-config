@@ -14,22 +14,10 @@ matrix:
       env: dependencies=lowest
     - php: 7.2
       env: dependencies=highest
-    - php: 7.3.0RC1
+    - php: 7.3
       env: dependencies=lowest
-      dist: xenial
-      sudo: required
-      addons:
-       apt:
-        packages:
-          - libzip4
-    - php: 7.3.0RC1
+    - php: 7.3
       env: dependencies=highest
-      dist: xenial
-      sudo: required
-      addons:
-       apt:
-        packages:
-          - libzip4
 
 before_script:
   - echo 'Europe/Zurich' | sudo tee /etc/timezone
