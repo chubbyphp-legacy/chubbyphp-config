@@ -11,10 +11,7 @@ $input = new ArgvInput();
 
 $console = new Application();
 $console->add(
-    new CleanDirectoriesCommand([
-        'cache' => __DIR__ . '/var/cache',
-        'log' => __DIR__ . '/var/log'
-    ])
+    new CleanDirectoriesCommand($container['chubbyphp.config.directories']) // when using with the ConfigServiceProvider
 );
 $console->run($input);
 ```

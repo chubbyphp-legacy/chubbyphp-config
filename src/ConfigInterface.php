@@ -19,6 +19,8 @@ interface ConfigInterface
     public function getConfig(): array;
 
     /**
+     * ['name1' => 'path1', 'name2' => 'path2'].
+     *
      * @return array
      */
     public function getDirectories(): array;

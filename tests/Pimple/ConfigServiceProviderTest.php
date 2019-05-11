@@ -26,10 +26,12 @@ class ConfigServiceProviderTest extends TestCase
 
         $directory = sys_get_temp_dir().'/config-service-provider-'.uniqid();
 
+        $directories = ['sample' => $directory];
+
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
             Call::create('getConfig')->with()->willReturn(['key' => 'value']),
-            Call::create('getDirectories')->with()->willReturn([$directory]),
+            Call::create('getDirectories')->with()->willReturn($directories),
         ]);
 
         /** @var ConfigProviderInterface|MockObject $provider */
@@ -44,6 +46,10 @@ class ConfigServiceProviderTest extends TestCase
         self::assertArrayHasKey('key', $container);
         self::assertSame('value', $container['key']);
 
+        self::assertArrayHasKey('chubbyphp.config.directories', $container);
+
+        self::assertSame($directories, $container['chubbyphp.config.directories']);
+
         self::assertDirectoryExists($directory);
     }
 
@@ -53,10 +59,12 @@ class ConfigServiceProviderTest extends TestCase
 
         $directory = sys_get_temp_dir().'/config-service-provider-'.uniqid();
 
+        $directories = ['sample' => $directory];
+
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
             Call::create('getConfig')->with()->willReturn(['key' => 'value']),
-            Call::create('getDirectories')->with()->willReturn([$directory]),
+            Call::create('getDirectories')->with()->willReturn($directories),
         ]);
 
         /** @var ConfigProviderInterface|MockObject $provider */
@@ -93,6 +101,8 @@ class ConfigServiceProviderTest extends TestCase
 
         $directory = sys_get_temp_dir().'/config-service-provider-'.uniqid();
 
+        $directories = ['sample' => $directory];
+
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
             Call::create('getConfig')->with()->willReturn([
@@ -105,7 +115,7 @@ class ConfigServiceProviderTest extends TestCase
                     ],
                 ],
             ]),
-            Call::create('getDirectories')->with()->willReturn([$directory]),
+            Call::create('getDirectories')->with()->willReturn($directories),
         ]);
 
         /** @var ConfigProviderInterface|MockObject $provider */
