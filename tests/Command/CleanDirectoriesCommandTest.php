@@ -11,6 +11,8 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * @covers \Chubbyphp\Config\Command\CleanDirectoriesCommand
+ *
+ * @internal
  */
 class CleanDirectoriesCommandTest extends TestCase
 {

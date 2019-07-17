@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Config;
 
-use PHPUnit\Framework\TestCase;
 use Chubbyphp\Config\ConfigException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Config\ConfigException
+ *
+ * @internal
  */
 class ConfigExceptionTest extends TestCase
 {

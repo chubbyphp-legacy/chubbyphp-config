@@ -34,19 +34,11 @@ final class ConfigProvider implements ConfigProviderInterface
     }
 
     /**
-     * @param ConfigMappingInterface $configMapping
-     */
-    private function addMapping(ConfigMappingInterface $configMapping)
-    {
-        $this->configMappings[$configMapping->getEnvironment()] = $configMapping->getClass();
-    }
-
-    /**
      * @param string $environment
      *
-     * @return ConfigInterface
-     *
      * @throws ConfigException
+     *
+     * @return ConfigInterface
      */
     public function get(string $environment): ConfigInterface
     {
@@ -61,5 +53,13 @@ final class ConfigProvider implements ConfigProviderInterface
         }
 
         return $this->configs[$environment];
+    }
+
+    /**
+     * @param ConfigMappingInterface $configMapping
+     */
+    private function addMapping(ConfigMappingInterface $configMapping)
+    {
+        $this->configMappings[$configMapping->getEnvironment()] = $configMapping->getClass();
     }
 }

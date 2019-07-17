@@ -35,19 +35,21 @@ class CleanDirectoriesCommand extends Command
                 'directoryNames',
                 InputArgument::IS_ARRAY,
                 'Directory names which should be cleaned'
-            );
+            )
+        ;
     }
 
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return int
-     *
      * @throws \InvalidArgumentException
+     *
+     * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string[] */
         $directoryNames = $input->getArgument('directoryNames');
 
         $unsupportedDirectoryNames = array_diff($directoryNames, array_keys($this->directories));

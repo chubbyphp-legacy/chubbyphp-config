@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Config;
 
+use Chubbyphp\Config\ConfigException;
 use Chubbyphp\Config\ConfigInterface;
 use Chubbyphp\Config\ConfigProviderInterface;
 use Chubbyphp\Config\Slim\SlimSettingsInterface;
@@ -14,10 +15,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
 use Slim\Collection;
-use Chubbyphp\Config\ConfigException;
 
 /**
  * @covers \Chubbyphp\Config\Slim\SlimSettingsServiceProvider
+ *
+ * @internal
  */
 class SlimSettingsServiceProviderTest extends TestCase
 {

@@ -15,6 +15,8 @@ use Pimple\Container;
 
 /**
  * @covers \Chubbyphp\Config\Pimple\ConfigServiceProvider
+ *
+ * @internal
  */
 class ConfigServiceProviderTest extends TestCase
 {

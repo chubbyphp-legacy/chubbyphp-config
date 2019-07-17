@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Config\ConfigProvider
+ *
+ * @internal
  */
 class ConfigProviderTest extends TestCase
 {
