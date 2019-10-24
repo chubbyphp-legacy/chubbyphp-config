@@ -6,11 +6,6 @@ namespace Chubbyphp\Config;
 
 interface ConfigInterface
 {
-    /**
-     * @param string $rootDir
-     *
-     * @return self
-     */
     public static function create(string $rootDir): self;
 
     /**
@@ -19,9 +14,7 @@ interface ConfigInterface
     public function getConfig(): array;
 
     /**
-     * ['name1' => 'path1', 'name2' => 'path2'].
-     *
-     * @return array
+     * @return array<string, string>
      */
     public function getDirectories(): array;
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Config;
+namespace Chubbyphp\Tests\Config\Unit;
 
 use Chubbyphp\Config\ConfigException;
 use Chubbyphp\Config\ConfigInterface;
@@ -22,7 +22,7 @@ class ConfigProviderTest extends TestCase
 {
     use MockByCallsTrait;
 
-    public function testCreateByMissingEnvironment()
+    public function testCreateByMissingEnvironment(): void
     {
         $this->expectException(ConfigException::class);
         $this->expectExceptionMessage('There is no config for environment "dev"');
@@ -32,7 +32,7 @@ class ConfigProviderTest extends TestCase
         $config = $provider->get('dev');
     }
 
-    public function testCreateByEnvironment()
+    public function testCreateByEnvironment(): void
     {
         $object = new class() implements ConfigInterface {
             /**

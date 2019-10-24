@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Config;
+namespace Chubbyphp\Tests\Config\Unit;
 
 use Chubbyphp\Config\ConfigException;
 use Chubbyphp\Config\ConfigInterface;
@@ -25,7 +25,7 @@ class SlimSettingsServiceProviderTest extends TestCase
 {
     use MockByCallsTrait;
 
-    public function testRegisterWithConfigInterface()
+    public function testRegisterWithConfigInterface(): void
     {
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class);
@@ -54,7 +54,7 @@ class SlimSettingsServiceProviderTest extends TestCase
         $serviceProvider->register($container);
     }
 
-    public function testRegisterWithSlimSettingsInterface()
+    public function testRegisterWithSlimSettingsInterface(): void
     {
         $container = new Container([
             'env' => 'dev',

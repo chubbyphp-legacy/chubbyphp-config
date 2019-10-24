@@ -12,12 +12,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CleanDirectoriesCommand extends Command
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
     private $directories;
 
     /**
-     * @param array $directories
+     * @param array<string, string> $directories
      */
     public function __construct(array $directories)
     {
@@ -26,7 +26,7 @@ class CleanDirectoriesCommand extends Command
         $this->directories = $directories;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('config:clean-directories')
@@ -39,17 +39,9 @@ class CleanDirectoriesCommand extends Command
         ;
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var string[] */
+        /** @var array<int, string> $directoryNames */
         $directoryNames = $input->getArgument('directoryNames');
 
         $unsupportedDirectoryNames = array_diff($directoryNames, array_keys($this->directories));
@@ -71,7 +63,7 @@ class CleanDirectoriesCommand extends Command
 
             try {
                 $this->cleanDirectory($directory);
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
                 $output->writeln(
                     sprintf(
                         '<error>Directory with name "%s" at path "%s" could not be cleaned</error>',
@@ -87,11 +79,7 @@ class CleanDirectoriesCommand extends Command
         return 0;
     }
 
-    /**
-     * @param string $path
-     * @param int    $level
-     */
-    private function cleanDirectory(string $path, int $level = 1)
+    private function cleanDirectory(string $path, int $level = 1): void
     {
         $directoryIterator = new \DirectoryIterator($path);
         foreach ($directoryIterator as $element) {

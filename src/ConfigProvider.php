@@ -12,18 +12,18 @@ final class ConfigProvider implements ConfigProviderInterface
     private $rootDir;
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     private $configMappings = [];
 
     /**
-     * @var ConfigInterface[]
+     * @var array<string, ConfigInterface>
      */
     private $configs = [];
 
     /**
-     * @param string                   $rootDir
-     * @param ConfigMappingInterface[] $configMappings
+     * @param string                             $rootDir
+     * @param array<int, ConfigMappingInterface> $configMappings
      */
     public function __construct(string $rootDir, array $configMappings)
     {
@@ -33,13 +33,6 @@ final class ConfigProvider implements ConfigProviderInterface
         }
     }
 
-    /**
-     * @param string $environment
-     *
-     * @throws ConfigException
-     *
-     * @return ConfigInterface
-     */
     public function get(string $environment): ConfigInterface
     {
         if (!isset($this->configMappings[$environment])) {
@@ -55,10 +48,7 @@ final class ConfigProvider implements ConfigProviderInterface
         return $this->configs[$environment];
     }
 
-    /**
-     * @param ConfigMappingInterface $configMapping
-     */
-    private function addMapping(ConfigMappingInterface $configMapping)
+    private function addMapping(ConfigMappingInterface $configMapping): void
     {
         $this->configMappings[$configMapping->getEnvironment()] = $configMapping->getClass();
     }

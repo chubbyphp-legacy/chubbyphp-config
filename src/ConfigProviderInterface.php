@@ -6,10 +6,5 @@ namespace Chubbyphp\Config;
 
 interface ConfigProviderInterface
 {
-    /**
-     * @param string $environment
-     *
-     * @return ConfigInterface
-     */
     public function get(string $environment): ConfigInterface;
 }

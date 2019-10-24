@@ -10,6 +10,9 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Slim\Interfaces\CollectionInterface;
 
+/**
+ * @deprecated
+ */
 final class SlimSettingsServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -17,18 +20,12 @@ final class SlimSettingsServiceProvider implements ServiceProviderInterface
      */
     private $configProvider;
 
-    /**
-     * @param ConfigProviderInterface $configProvider
-     */
     public function __construct(ConfigProviderInterface $configProvider)
     {
         $this->configProvider = $configProvider;
     }
 
-    /**
-     * @param Container $container
-     */
-    public function register(Container $container)
+    public function register(Container $container): void
     {
         $config = $this->configProvider->get($container['env']);
 
@@ -36,7 +33,7 @@ final class SlimSettingsServiceProvider implements ServiceProviderInterface
             throw ConfigException::createByMissingInterface(get_class($config), SlimSettingsInterface::class);
         }
 
-        $container->extend('settings', function (CollectionInterface $settings) use ($config) {
+        $container->extend('settings', static function (CollectionInterface $settings) use ($config) {
             $settings->replace($config->getSlimSettings());
 
             return $settings;

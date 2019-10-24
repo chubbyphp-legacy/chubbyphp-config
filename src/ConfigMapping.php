@@ -16,10 +16,6 @@ final class ConfigMapping implements ConfigMappingInterface
      */
     private $class;
 
-    /**
-     * @param string $environment
-     * @param string $class
-     */
     public function __construct(string $environment, string $class)
     {
         if (!in_array(ConfigInterface::class, class_implements($class), true)) {
@@ -30,17 +26,11 @@ final class ConfigMapping implements ConfigMappingInterface
         $this->class = $class;
     }
 
-    /**
-     * @return string
-     */
     public function getEnvironment(): string
     {
         return $this->environment;
     }
 
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return $this->class;

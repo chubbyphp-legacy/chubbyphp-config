@@ -6,13 +6,7 @@ namespace Chubbyphp\Config;
 
 interface ConfigMappingInterface
 {
-    /**
-     * @return string
-     */
     public function getEnvironment(): string;
 
-    /**
-     * @return string
-     */
     public function getClass(): string;
 }

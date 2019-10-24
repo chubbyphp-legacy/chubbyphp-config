@@ -15,18 +15,12 @@ final class ConfigServiceProvider implements ServiceProviderInterface
      */
     private $configProvider;
 
-    /**
-     * @param ConfigProviderInterface $configProvider
-     */
     public function __construct(ConfigProviderInterface $configProvider)
     {
         $this->configProvider = $configProvider;
     }
 
-    /**
-     * @param Container $container
-     */
-    public function register(Container $container)
+    public function register(Container $container): void
     {
         $config = $this->configProvider->get($container['env']);
 

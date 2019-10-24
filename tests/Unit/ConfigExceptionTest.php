@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Config;
+namespace Chubbyphp\Tests\Config\Unit;
 
 use Chubbyphp\Config\ConfigException;
 use PHPUnit\Framework\TestCase;
@@ -14,14 +14,14 @@ use PHPUnit\Framework\TestCase;
  */
 class ConfigExceptionTest extends TestCase
 {
-    public function testCreateByEnvironment()
+    public function testCreateByEnvironment(): void
     {
         $exception = ConfigException::createByEnvironment('dev');
 
         self::assertSame('There is no config for environment "dev"', $exception->getMessage());
     }
 
-    public function testCreateByMissingInterface()
+    public function testCreateByMissingInterface(): void
     {
         $exception = ConfigException::createByMissingInterface(\stdClass::class, \DateTimeInterface::class);
 

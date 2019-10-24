@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Config\Pimple;
+namespace Chubbyphp\Tests\Config\Unit\Pimple;
 
 use Chubbyphp\Config\ConfigInterface;
 use Chubbyphp\Config\ConfigProviderInterface;
@@ -22,7 +22,7 @@ class ConfigServiceProviderTest extends TestCase
 {
     use MockByCallsTrait;
 
-    public function testRegister()
+    public function testRegister(): void
     {
         $container = new Container(['env' => 'dev']);
 
@@ -55,7 +55,7 @@ class ConfigServiceProviderTest extends TestCase
         self::assertDirectoryExists($directory);
     }
 
-    public function testRegisterWithExistingScalar()
+    public function testRegisterWithExistingScalar(): void
     {
         $container = new Container(['env' => 'dev', 'key' => 'existingValue']);
 
@@ -84,7 +84,7 @@ class ConfigServiceProviderTest extends TestCase
         self::assertDirectoryExists($directory);
     }
 
-    public function testRegisterWithExistingArray()
+    public function testRegisterWithExistingArray(): void
     {
         $container = new Container([
             'env' => 'dev',
@@ -108,6 +108,7 @@ class ConfigServiceProviderTest extends TestCase
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
             Call::create('getConfig')->with()->willReturn([
+                'env' => 'test',
                 'key' => [
                     'key1' => [
                         'key12' => 'value112',
@@ -115,6 +116,7 @@ class ConfigServiceProviderTest extends TestCase
                     'key3' => [
                         'value33',
                     ],
+                    'key4' => 'value4',
                 ],
             ]),
             Call::create('getDirectories')->with()->willReturn($directories),
@@ -129,6 +131,10 @@ class ConfigServiceProviderTest extends TestCase
 
         $container->register(new ConfigServiceProvider($provider));
 
+        self::assertArrayHasKey('env', $container);
+
+        self::assertSame('test', $container['env']);
+
         self::assertArrayHasKey('key', $container);
         self::assertSame([
             'key1' => [
@@ -141,12 +147,13 @@ class ConfigServiceProviderTest extends TestCase
                 2 => 'value32',
                 3 => 'value33',
             ],
+            'key4' => 'value4',
         ], $container['key']);
 
         self::assertDirectoryExists($directory);
     }
 
-    public function testRegisterWithExistingStringConvertToInt()
+    public function testRegisterWithExistingStringConvertToInt(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Type conversion from "string" to "integer" at path "key"');
@@ -173,7 +180,7 @@ class ConfigServiceProviderTest extends TestCase
         $container->register(new ConfigServiceProvider($provider));
     }
 
-    public function testRegisterWithExistingStringConvertToArray()
+    public function testRegisterWithExistingStringConvertToArray(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Type conversion from "string" to "array" at path "key.key1.key12"');

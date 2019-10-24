@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Config;
+namespace Chubbyphp\Tests\Config\Unit;
 
 use Chubbyphp\Config\ConfigException;
 use Chubbyphp\Config\ConfigInterface;
@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ConfigMappingTest extends TestCase
 {
-    public function testCreateWithUnsupportedClass()
+    public function testCreateWithUnsupportedClass(): void
     {
         $this->expectException(ConfigException::class);
         $this->expectExceptionMessage('Class "stdClass" does not implement interface "Chubbyphp\Config\ConfigInterface"');
@@ -24,7 +24,7 @@ class ConfigMappingTest extends TestCase
         new ConfigMapping('dev', \stdClass::class);
     }
 
-    public function testCreateWithSupportedClass()
+    public function testCreateWithSupportedClass(): void
     {
         $object = new class() implements ConfigInterface {
             /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Config\Command;
+namespace Chubbyphp\Tests\Config\Unit\Command;
 
 use Chubbyphp\Config\Command\CleanDirectoriesCommand;
 use PHPUnit\Framework\TestCase;
@@ -16,14 +16,14 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class CleanDirectoriesCommandTest extends TestCase
 {
-    public function testGetName()
+    public function testGetName(): void
     {
         $command = new CleanDirectoriesCommand([]);
 
         self::assertSame('config:clean-directories', $command->getName());
     }
 
-    public function testWithUnsupportedDirectoryNames()
+    public function testWithUnsupportedDirectoryNames(): void
     {
         $path = sys_get_temp_dir().'/'.uniqid('chubbyphp-config-clean-directories-');
         $cacheDir = $path.'/cache';
@@ -46,7 +46,7 @@ EOT;
         self::assertSame($outputMessage, $output->fetch());
     }
 
-    public function testWithSupportedDirectoryNamesButMissingDirectory()
+    public function testWithSupportedDirectoryNamesButMissingDirectory(): void
     {
         $path = sys_get_temp_dir().'/'.uniqid('chubbyphp-config-clean-directories-');
         $cacheDir = $path.'/cache';
@@ -71,7 +71,7 @@ EOT;
         self::assertSame(sprintf($outputMessage, $cacheDir, $cacheDir), $output->fetch());
     }
 
-    public function testWithSupportedDirectoryNames()
+    public function testWithSupportedDirectoryNames(): void
     {
         $path = sys_get_temp_dir().'/'.uniqid('chubbyphp-config-clean-directories-');
         $cacheDir = $path.'/cache';

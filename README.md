@@ -1,8 +1,7 @@
 # chubbyphp-config
 
 [![Build Status](https://api.travis-ci.org/chubbyphp/chubbyphp-config.png?branch=master)](https://travis-ci.org/chubbyphp/chubbyphp-config)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-config/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-config/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-config/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-config/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/chubbyphp/chubbyphp-config/badge.svg?branch=master)](https://coveralls.io/github/chubbyphp/chubbyphp-config?branch=master)
 [![Total Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-config/downloads.png)](https://packagist.org/packages/chubbyphp/chubbyphp-config)
 [![Monthly Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-config/d/monthly)](https://packagist.org/packages/chubbyphp/chubbyphp-config)
 [![Latest Stable Version](https://poser.pugx.org/chubbyphp/chubbyphp-config/v/stable.png)](https://packagist.org/packages/chubbyphp/chubbyphp-config)
@@ -14,20 +13,20 @@ A simple config.
 
 ## Requirements
 
- * php: ~7.0
+ * php: ^7.2
 
 ## Suggest
 
- * pimple/pimple: ~3.0
- * slim/slim: ~3.0
- * symfony/console: ~2.8|~3.0|~4.0
+ * pimple/pimple: ^3.2.3
+ * slim/slim: ^3.0
+ * symfony/console: ^2.8|^3.4|^4.2
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-config][1].
 
 ```bash
-composer require chubbyphp/chubbyphp-config "^1.2"
+composer require chubbyphp/chubbyphp-config "^1.3"
 ```
 
 ## Usage
@@ -36,9 +35,7 @@ composer require chubbyphp/chubbyphp-config "^1.2"
 
  * [CleanDirectoriesCommand][2]
 
-### Slim
-
-#### Bootstrap
+### Bootstrap
 
 ```php
 <?php
@@ -48,7 +45,6 @@ namespace MyProject;
 use Chubbyphp\Config\ConfigProvider;
 use Chubbyphp\Config\ConfigMapping;
 use Chubbyphp\Config\Pimple\ConfigServiceProvider;
-use Chubbyphp\Config\Slim\SlimSettingsServiceProvider;
 use MyProject\Config\DevConfig;
 use MyProject\Config\ProdConfig;
 use Pimple\Container;
@@ -60,10 +56,9 @@ $configProvider = new ConfigProvider(__DIR__, [
 
 $container = new Container(['env' => 'dev']);
 $container->register(new ConfigServiceProvider($configProvider));
-$container->register(new SlimSettingsServiceProvider($configProvider));
 ```
 
-#### Config
+### Config
 
 ```php
 <?php
@@ -71,9 +66,8 @@ $container->register(new SlimSettingsServiceProvider($configProvider));
 namespace MyProject\Config;
 
 use Chubbyphp\Config\ConfigInterface;
-use Chubbyphp\Config\Slim\SlimSettingsInterface;
 
-class DevConfig implements ConfigInterface, SlimSettingsInterface
+class DevConfig implements ConfigInterface
 {
     /**
      * @var string
@@ -118,22 +112,12 @@ class DevConfig implements ConfigInterface, SlimSettingsInterface
             'logs' => $this->rootDir . '/var/logs/dev',
         ];
     }
-
-    /**
-     * @return array
-     */
-    public function getSlimSettings(): array
-    {
-        return [
-            'displayErrorDetails' => false,
-        ];
-    }
 }
 ```
 
 ## Copyright
 
-Dominik Zogg 2018
+Dominik Zogg 2019
 
 [1]: https://packagist.org/packages/chubbyphp/chubbyphp-config
 [2]: doc/Command/CleanDirectoriesCommand.md
