@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Config\Pimple;
+namespace Chubbyphp\Config\ServiceProvider;
 
 use Chubbyphp\Config\ConfigProviderInterface;
 use Pimple\Container;

@@ -8,6 +8,6 @@ parameters:
             path: %currentWorkingDirectory%/src/Command/CleanDirectoriesCommand.php
         -
             message: '/Argument of an invalid type array\|bool\|float\|int\|string supplied for foreach, only iterables are supported\./'
-            path: %currentWorkingDirectory%/src/Pimple/ConfigServiceProvider.php
+            path: %currentWorkingDirectory%/src/ServiceProvider/ConfigServiceProvider.php
 
 

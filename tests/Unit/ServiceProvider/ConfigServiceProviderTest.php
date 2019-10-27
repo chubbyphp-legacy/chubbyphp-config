@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Config\Unit\Pimple;
+namespace Chubbyphp\Tests\Config\Unit\ServiceProvider;
 
 use Chubbyphp\Config\ConfigInterface;
 use Chubbyphp\Config\ConfigProviderInterface;
-use Chubbyphp\Config\Pimple\ConfigServiceProvider;
+use Chubbyphp\Config\ServiceProvider\ConfigServiceProvider;
 use Chubbyphp\Mock\Call;
 use Chubbyphp\Mock\MockByCallsTrait;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Pimple\Container;
 
 /**
- * @covers \Chubbyphp\Config\Pimple\ConfigServiceProvider
+ * @covers \Chubbyphp\Config\ServiceProvider\ConfigServiceProvider
  *
  * @internal
  */
