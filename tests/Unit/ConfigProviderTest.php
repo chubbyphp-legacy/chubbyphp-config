@@ -40,9 +40,6 @@ class ConfigProviderTest extends TestCase
              */
             private $rootDir;
 
-            /**
-             * @param string $rootDir
-             */
             public static function create(string $rootDir): ConfigInterface
             {
                 $config = new self();
@@ -51,17 +48,11 @@ class ConfigProviderTest extends TestCase
                 return $config;
             }
 
-            /**
-             * @return array
-             */
             public function getConfig(): array
             {
                 return ['rootDir' => $this->rootDir];
             }
 
-            /**
-             * @return array
-             */
             public function getDirectories(): array
             {
                 return ['/path/to/create'];

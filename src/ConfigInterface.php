@@ -8,9 +8,6 @@ interface ConfigInterface
 {
     public static function create(string $rootDir): self;
 
-    /**
-     * @return array
-     */
     public function getConfig(): array;
 
     /**

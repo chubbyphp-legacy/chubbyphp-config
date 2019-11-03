@@ -22,7 +22,6 @@ final class ConfigProvider implements ConfigProviderInterface
     private $configs = [];
 
     /**
-     * @param string                             $rootDir
      * @param array<int, ConfigMappingInterface> $configMappings
      */
     public function __construct(string $rootDir, array $configMappings)

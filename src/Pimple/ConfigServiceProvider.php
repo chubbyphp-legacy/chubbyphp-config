@@ -43,7 +43,6 @@ final class ConfigServiceProvider implements ServiceProviderInterface
     /**
      * @param array|string|float|int|bool $existingValue
      * @param array|string|float|int|bool $newValue
-     * @param string                      $path
      *
      * @return array|string|float|int|bool
      */
@@ -53,9 +52,7 @@ final class ConfigServiceProvider implements ServiceProviderInterface
         $newType = gettype($newValue);
 
         if ($existingType !== $newType) {
-            throw new \LogicException(
-                sprintf('Type conversion from "%s" to "%s" at path "%s"', $existingType, $newType, $path)
-            );
+            throw new \LogicException(sprintf('Type conversion from "%s" to "%s" at path "%s"', $existingType, $newType, $path));
         }
 
         if ('array' !== $newType) {

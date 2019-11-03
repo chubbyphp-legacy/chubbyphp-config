@@ -32,9 +32,6 @@ class ConfigMappingTest extends TestCase
              */
             private $rootDir;
 
-            /**
-             * @param string $rootDir
-             */
             public static function create(string $rootDir): ConfigInterface
             {
                 $config = new self();
@@ -43,17 +40,11 @@ class ConfigMappingTest extends TestCase
                 return $config;
             }
 
-            /**
-             * @return array
-             */
             public function getConfig(): array
             {
                 return [];
             }
 
-            /**
-             * @return array
-             */
             public function getDirectories(): array
             {
                 return [];
