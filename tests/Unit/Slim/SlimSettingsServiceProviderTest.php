@@ -21,7 +21,7 @@ use Slim\Collection;
  *
  * @internal
  */
-class SlimSettingsServiceProviderTest extends TestCase
+final class SlimSettingsServiceProviderTest extends TestCase
 {
     use MockByCallsTrait;
 

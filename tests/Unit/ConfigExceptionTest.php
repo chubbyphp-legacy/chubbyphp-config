@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  */
-class ConfigExceptionTest extends TestCase
+final class ConfigExceptionTest extends TestCase
 {
     public function testCreateByEnvironment(): void
     {

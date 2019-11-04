@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  */
-class ConfigMappingTest extends TestCase
+final class ConfigMappingTest extends TestCase
 {
     public function testCreateWithUnsupportedClass(): void
     {

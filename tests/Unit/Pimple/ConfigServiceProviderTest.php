@@ -18,7 +18,7 @@ use Pimple\Container;
  *
  * @internal
  */
-class ConfigServiceProviderTest extends TestCase
+final class ConfigServiceProviderTest extends TestCase
 {
     use MockByCallsTrait;
 

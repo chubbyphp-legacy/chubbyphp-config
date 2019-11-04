@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  */
-class ConfigProviderTest extends TestCase
+final class ConfigProviderTest extends TestCase
 {
     use MockByCallsTrait;
 
