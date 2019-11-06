@@ -35,7 +35,7 @@ final class ConfigServiceProvider implements ServiceProviderInterface
         $container['chubbyphp.config.directories'] = $config->getDirectories();
         foreach ($container['chubbyphp.config.directories'] as $requiredDirectory) {
             if (!is_dir($requiredDirectory)) {
-                mkdir($requiredDirectory, 0777, true);
+                mkdir($requiredDirectory, 0775, true);
             }
         }
     }
