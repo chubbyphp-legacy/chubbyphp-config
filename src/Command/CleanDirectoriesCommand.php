@@ -79,18 +79,18 @@ class CleanDirectoriesCommand extends Command
         return 0;
     }
 
-    private function cleanDirectory(string $path, int $level = 1): void
+    private function cleanDirectory(string $path, bool $rmdir = false): void
     {
         $directoryIterator = new \DirectoryIterator($path);
         foreach ($directoryIterator as $element) {
             if ($element->isFile()) {
                 unlink($element->getRealPath());
             } elseif (!$element->isDot() && $element->isDir()) {
-                $this->cleanDirectory($element->getRealPath(), $level + 1);
+                $this->cleanDirectory($element->getRealPath(), true);
             }
         }
 
-        if (1 !== $level) {
+        if ($rmdir) {
             rmdir($path);
         }
     }

@@ -115,6 +115,7 @@ final class ConfigServiceProviderTest extends TestCase
                     ],
                     'key3' => [
                         'value33',
+                        'value34',
                     ],
                     'key4' => 'value4',
                 ],
@@ -146,11 +147,14 @@ final class ConfigServiceProviderTest extends TestCase
                 0 => 'value31',
                 2 => 'value32',
                 3 => 'value33',
+                4 => 'value34',
             ],
             'key4' => 'value4',
         ], $container['key']);
 
         self::assertDirectoryExists($directory);
+
+        self::assertSame('0775', substr(sprintf('%o', fileperms($directory)), -4));
     }
 
     public function testRegisterWithExistingStringConvertToInt(): void
