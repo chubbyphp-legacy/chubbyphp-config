@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  *
  * @internal
  */
-class CleanDirectoriesCommandTest extends TestCase
+final class CleanDirectoriesCommandTest extends TestCase
 {
     public function testGetName(): void
     {
