@@ -6,9 +6,6 @@ namespace Chubbyphp\Config;
 
 interface ConfigInterface
 {
-    /**
-     * @return array
-     */
     public function getConfig(): array;
 
     /**
