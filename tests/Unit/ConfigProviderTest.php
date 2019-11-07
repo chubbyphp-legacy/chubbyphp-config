@@ -34,7 +34,7 @@ final class ConfigProviderTest extends TestCase
     {
         /** @var ConfigInterface|MockObject $config */
         $config = $this->getMockByCalls(ConfigInterface::class, [
-            Call::create('getEnvironment')->with()->willReturn('dev'),
+            Call::create('getEnv')->with()->willReturn('dev'),
         ]);
 
         $provider = new ConfigProvider([$config]);

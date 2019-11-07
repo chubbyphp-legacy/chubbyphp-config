@@ -13,5 +13,5 @@ interface ConfigInterface
      */
     public function getDirectories(): array;
 
-    public function getEnvironment(): string;
+    public function getEnv(): string;
 }

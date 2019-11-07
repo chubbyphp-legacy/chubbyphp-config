@@ -87,7 +87,7 @@ class DevConfig implements ConfigInterface
     public function getConfig(): array
     {
         return [
-            'env' => $this->getEnvironment(),
+            'env' => $this->getEnv(),
             'rootDir' => $this->rootDir
         ];
     }
@@ -97,7 +97,7 @@ class DevConfig implements ConfigInterface
      */
     public function getDirectories(): array
     {
-        $environment = $this->getEnvironment();
+        $environment = $this->getEnv();
 
         return [
             'cache' => $this->rootDir . '/var/cache/' . $environment,
@@ -105,7 +105,7 @@ class DevConfig implements ConfigInterface
         ];
     }
 
-    public function getEnvironment(): string
+    public function getEnv(): string
     {
         return 'dev';
     }

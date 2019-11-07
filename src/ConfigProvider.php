@@ -33,6 +33,6 @@ final class ConfigProvider implements ConfigProviderInterface
 
     private function addConfig(ConfigInterface $config): void
     {
-        $this->configs[$config->getEnvironment()] = $config;
+        $this->configs[$config->getEnv()] = $config;
     }
 }
