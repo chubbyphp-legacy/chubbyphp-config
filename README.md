@@ -26,7 +26,7 @@ A simple config.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-config][1].
 
 ```bash
-composer require chubbyphp/chubbyphp-config "^1.3"
+composer require chubbyphp/chubbyphp-config "^2.0"
 ```
 
 ## Usage
@@ -43,15 +43,14 @@ composer require chubbyphp/chubbyphp-config "^1.3"
 namespace MyProject;
 
 use Chubbyphp\Config\ConfigProvider;
-use Chubbyphp\Config\ConfigMapping;
 use Chubbyphp\Config\Pimple\ConfigServiceProvider;
 use MyProject\Config\DevConfig;
 use MyProject\Config\ProdConfig;
 use Pimple\Container;
 
 $configProvider = new ConfigProvider(__DIR__, [
-    new ConfigMapping('dev', DevConfig::class),
-    new ConfigMapping('prod', ProdConfig::class),
+    new DevConfig(__DIR__),
+    new ProdConfig(__DIR__),
 ]);
 
 $container = new Container(['env' => 'dev']);
@@ -74,21 +73,12 @@ class DevConfig implements ConfigInterface
      */
     private $rootDir;
 
-    private function __construct()
-    {
-    }
-
     /**
      * @param string $rootDir
-     *
-     * @return self
      */
-    public static function create(string $rootDir): ConfigInterface
+    public function __construct(string $rootDir)
     {
-        $config = new self;
-        $config->rootDir = $rootDir;
-
-        return $config;
+        $this->rootDir = $rootDir;
     }
 
     /**
@@ -97,7 +87,7 @@ class DevConfig implements ConfigInterface
     public function getConfig(): array
     {
         return [
-            'env' => 'dev',
+            'env' => $this->getEnvironment(),
             'rootDir' => $this->rootDir
         ];
     }
@@ -107,10 +97,17 @@ class DevConfig implements ConfigInterface
      */
     public function getDirectories(): array
     {
+        $environment = $this->getEnvironment();
+
         return [
-            'cache' => $this->rootDir . '/var/cache/dev',
-            'logs' => $this->rootDir . '/var/logs/dev',
+            'cache' => $this->rootDir . '/var/cache/' . $environment,
+            'logs' => $this->rootDir . '/var/logs/' . $environment,
         ];
+    }
+
+    public function getEnvironment(): string
+    {
+        return 'dev';
     }
 }
 ```

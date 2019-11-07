@@ -7,48 +7,32 @@ namespace Chubbyphp\Config;
 final class ConfigProvider implements ConfigProviderInterface
 {
     /**
-     * @var string
-     */
-    private $rootDir;
-
-    /**
-     * @var array<string, string>
-     */
-    private $configMappings = [];
-
-    /**
      * @var array<string, ConfigInterface>
      */
-    private $configs = [];
+    private $configs;
 
     /**
-     * @param array<int, ConfigMappingInterface> $configMappings
+     * @param array<string, ConfigInterface> $configs
      */
-    public function __construct(string $rootDir, array $configMappings)
+    public function __construct(array $configs)
     {
-        $this->rootDir = $rootDir;
-        foreach ($configMappings as $configMapping) {
-            $this->addMapping($configMapping);
+        $this->configs = [];
+        foreach ($configs as $config) {
+            $this->addConfig($config);
         }
     }
 
     public function get(string $environment): ConfigInterface
     {
-        if (!isset($this->configMappings[$environment])) {
-            throw ConfigException::createByEnvironment($environment);
-        }
-
         if (!isset($this->configs[$environment])) {
-            $class = $this->configMappings[$environment];
-
-            $this->configs[$environment] = $class::create($this->rootDir);
+            throw ConfigException::createByEnvironment($environment);
         }
 
         return $this->configs[$environment];
     }
 
-    private function addMapping(ConfigMappingInterface $configMapping): void
+    private function addConfig(ConfigInterface $config): void
     {
-        $this->configMappings[$configMapping->getEnvironment()] = $configMapping->getClass();
+        $this->configs[$config->getEnvironment()] = $config;
     }
 }
