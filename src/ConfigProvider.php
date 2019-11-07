@@ -12,7 +12,7 @@ final class ConfigProvider implements ConfigProviderInterface
     private $configs;
 
     /**
-     * @param array<string, ConfigInterface> $configs
+     * @param array<int, ConfigInterface> $configs
      */
     public function __construct(array $configs)
     {
