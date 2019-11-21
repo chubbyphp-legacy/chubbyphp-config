@@ -18,8 +18,7 @@ A simple config.
 ## Suggest
 
  * pimple/pimple: ^3.2.3
- * slim/slim: ^3.0
- * symfony/console: ^2.8|^3.4|^4.2
+ * symfony/console: ^2.8|^3.4|^4.2|^5.0
 
 ## Installation
 
