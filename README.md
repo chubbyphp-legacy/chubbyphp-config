@@ -17,6 +17,7 @@ A simple config.
 
 ## Suggest
 
+ * chubbyphp/chubbyphp-container: ^1.0
  * pimple/pimple: ^3.2.3
  * symfony/console: ^2.8|^3.4|^4.2|^5.0
 
@@ -25,7 +26,7 @@ A simple config.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-config][1].
 
 ```bash
-composer require chubbyphp/chubbyphp-config "^2.0"
+composer require chubbyphp/chubbyphp-config "^2.1"
 ```
 
 ## Usage
@@ -36,24 +37,52 @@ composer require chubbyphp/chubbyphp-config "^2.0"
 
 ### Bootstrap
 
+#### ServiceFactory (chubbyphp/chubbyphp-container)
+
 ```php
 <?php
 
 namespace MyProject;
 
 use Chubbyphp\Config\ConfigProvider;
-use Chubbyphp\Config\Pimple\ConfigServiceProvider;
+use Chubbyphp\Config\ServiceFactory\ConfigServiceFactory;
+use Chubbyphp\Container\Container;
 use MyProject\Config\DevConfig;
 use MyProject\Config\ProdConfig;
-use Pimple\Container;
+
+$env = 'dev';
 
 $configProvider = new ConfigProvider(__DIR__, [
     new DevConfig(__DIR__),
     new ProdConfig(__DIR__),
 ]);
 
-$container = new Container(['env' => 'dev']);
-$container->register(new ConfigServiceProvider($configProvider));
+$container = new Container();
+$container->factories((new ConfigServiceFactory($configProvider->get($env)))());
+```
+
+#### ServiceProvider (pimple/pimple)
+
+```php
+<?php
+
+namespace MyProject;
+
+use Chubbyphp\Config\ConfigProvider;
+use Chubbyphp\Config\ServiceProvider\ConfigServiceProvider;
+use MyProject\Config\DevConfig;
+use MyProject\Config\ProdConfig;
+use Pimple\Container;
+
+$env = 'dev';
+
+$configProvider = new ConfigProvider(__DIR__, [
+    new DevConfig(__DIR__),
+    new ProdConfig(__DIR__),
+]);
+
+$container = new Container();
+$container->register(new ConfigServiceProvider($configProvider->get($env));
 ```
 
 ### Config
