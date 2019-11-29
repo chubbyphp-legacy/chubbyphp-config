@@ -52,13 +52,11 @@ use MyProject\Config\ProdConfig;
 
 $env = 'dev';
 
-$configProvider = new ConfigProvider(__DIR__, [
-    new DevConfig(__DIR__),
-    new ProdConfig(__DIR__),
-]);
-
 $container = new Container();
-$container->factories((new ConfigServiceFactory($configProvider->get($env)))());
+$container->factories((new ConfigServiceFactory((new ConfigProvider([
+    new DevConfig(__DIR__.'/..'),
+    new ProdConfig(__DIR__.'/..'),
+]))->get($env)))());
 ```
 
 #### ServiceProvider (pimple/pimple)
@@ -76,13 +74,13 @@ use Pimple\Container;
 
 $env = 'dev';
 
-$configProvider = new ConfigProvider(__DIR__, [
-    new DevConfig(__DIR__),
-    new ProdConfig(__DIR__),
-]);
-
 $container = new Container();
-$container->register(new ConfigServiceProvider($configProvider->get($env));
+$container->register(new ConfigServiceProvider(
+    (new ConfigProvider([
+        new DevConfig(__DIR__.'/..'),
+        new ProdConfig(__DIR__.'/..'),
+    ]))->get($env)
+));
 ```
 
 ### Config
