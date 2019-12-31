@@ -18,6 +18,7 @@ use SlevomatCodingStandard\Sniffs\Classes\SuperfluousInterfaceNamingSniff;
 use SlevomatCodingStandard\Sniffs\Classes\SuperfluousTraitNamingSniff;
 use SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff;
 use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff;
+use SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff;
 
 return [
@@ -35,6 +36,7 @@ return [
         SuperfluousInterfaceNamingSniff::class,
         SuperfluousTraitNamingSniff::class,
         UnnecessaryStringConcatSniff::class,
+        UnusedParameterSniff::class, // cause type hints
         UselessOverridingMethodSniff::class, // cause visibility change on expections __construct,
     ],
     'config' => [

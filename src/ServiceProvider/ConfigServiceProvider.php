@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Config\ServiceProvider;
 
 use Chubbyphp\Config\ConfigInterface;
+use Chubbyphp\Config\ConfigMerger;
 use Chubbyphp\Config\ConfigProviderInterface;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -48,7 +49,7 @@ final class ConfigServiceProvider implements ServiceProviderInterface
 
         foreach ($config->getConfig() as $key => $value) {
             if (isset($container[$key])) {
-                $value = $this->mergeRecursive($container[$key], $value, $key);
+                $value = ConfigMerger::merge($container[$key], $value, $key);
             }
 
             $container[$key] = $value;
@@ -90,54 +91,5 @@ final class ConfigServiceProvider implements ServiceProviderInterface
                 is_object($config) ? get_class($config) : gettype($config)
             )
         );
-    }
-
-    /**
-     * @param array|string|float|int|bool $existingValue
-     * @param array|string|float|int|bool $newValue
-     *
-     * @return array|string|float|int|bool
-     */
-    private function mergeRecursive($existingValue, $newValue, string $path)
-    {
-        $this->assertSameType($existingValue, $newValue, $path);
-
-        if ('array' !== gettype($newValue)) {
-            return $newValue;
-        }
-
-        foreach ($newValue as $key => $newSubValue) {
-            if (!is_string($key)) {
-                $existingValue[] = $newSubValue;
-
-                continue;
-            }
-
-            if (isset($existingValue[$key])) {
-                $subPath = $path.'.'.$key;
-
-                $existingValue[$key] = $this->mergeRecursive($existingValue[$key], $newSubValue, $subPath);
-            } else {
-                $existingValue[$key] = $newSubValue;
-            }
-        }
-
-        return $existingValue;
-    }
-
-    /**
-     * @param array|string|float|int|bool $existingValue
-     * @param array|string|float|int|bool $newValue
-     */
-    private function assertSameType($existingValue, $newValue, string $path): void
-    {
-        $existingType = gettype($existingValue);
-        $newType = gettype($newValue);
-
-        if ($existingType !== $newType) {
-            throw new \LogicException(
-                sprintf('Type conversion from "%s" to "%s" at path "%s"', $existingType, $newType, $path)
-            );
-        }
     }
 }

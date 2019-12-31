@@ -6,10 +6,3 @@ parameters:
         -
             message: '/Parameter \#1 \$path of method Chubbyphp\\Config\\Command\\CleanDirectoriesCommand\:\:cleanDirectory\(\) expects string, string\|false given\./'
             path: %currentWorkingDirectory%/src/Command/CleanDirectoriesCommand.php
-        -
-            message: '/Argument of an invalid type array\|bool\|float\|int\|string supplied for foreach, only iterables are supported\./'
-            path: %currentWorkingDirectory%/src/ServiceFactory/ConfigServiceFactory.php
-        -
-            message: '/Argument of an invalid type array\|bool\|float\|int\|string supplied for foreach, only iterables are supported\./'
-            path: %currentWorkingDirectory%/src/ServiceProvider/ConfigServiceProvider.php
-
