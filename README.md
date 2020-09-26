@@ -11,6 +11,8 @@
 
 A simple config.
 
+DEPRECATED: I suggest to use [chubbyphp-laminas-config][3] with or without config stuff from [laminas][4].
+
 ## Requirements
 
  * php: ^7.2
@@ -144,3 +146,5 @@ Dominik Zogg 2020
 
 [1]: https://packagist.org/packages/chubbyphp/chubbyphp-config
 [2]: doc/Command/CleanDirectoriesCommand.md
+[3]: https://packagist.org/packages/chubbyphp/chubbyphp-laminas-config
+[4]: https://github.com/laminas?q=config&type=&language=php
